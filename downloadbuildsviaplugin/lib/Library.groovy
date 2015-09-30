@@ -1,6 +1,9 @@
 package downloadbuildsviaplugin.lib
 
 import java.util.concurrent.CancellationException
+import hudson.model.*
+import hudson.AbortException
+import hudson.console.HyperlinkNote
 
 def executeCommand(List<String> args) {
     out("Invoking ${args}")
