@@ -1,3 +1,8 @@
+import hudson.model.*
+import hudson.AbortException
+import hudson.console.HyperlinkNote
+import java.util.concurrent.CancellationException
+
 String [] artifactsList = [
         "pentaho-business-analytics-x64.bin",
         "pentaho-business-analytics-x64.exe",

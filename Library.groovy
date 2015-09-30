@@ -1,3 +1,8 @@
+import hudson.model.*
+import hudson.AbortException
+import hudson.console.HyperlinkNote
+import java.util.concurrent.CancellationException
+
 class Library {
     def executeCommand(List<String> args) {
         out("Invoking ${args}")
