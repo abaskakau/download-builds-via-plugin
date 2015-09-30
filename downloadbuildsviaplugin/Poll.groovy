@@ -1,23 +1,21 @@
+package downloadbuildsviaplugin
+
 import hudson.model.*
 import hudson.AbortException
 import hudson.console.HyperlinkNote
 import java.util.concurrent.CancellationException
 
-String [] artifactsList = [
-        "pentaho-business-analytics-x64.bin",
-        "pentaho-business-analytics-x64.exe",
-        "pentaho-business-analytics-x64.app.tar.gz",
-        "biserver-ee.zip",
-        "pdi-ee.zip"
+String [] versionsList = [
+        "6.0-NIGHTLY",
+        "5.4-NIGHTLY",
+        "6.0.0.0",
+        "MASTER-NIGHTLY"
 ]
-def buildVersion = build.buildVariableResolver.resolve("buildVersion")
 def buildDirectory = build.getEnvironment(listener).get('PENTAHO_BUILDS_PATH')
+def mainJob = build.buildVariableResolver.resolve("mainJob")
+def versionSpecified = build.buildVariableResolver.resolve("versionSpecified")
 def hostedLocation = "http://10.177.176.213/hosted"
 def hostedVersion = "latest"
-def BUILD_NUMBER = build.getEnvironment(listener).get('BUILD_NUMBER')
-def buildArchive = urlBuilderDir("/media/storage/jenkins/jobs",this.binding.build.project.name,"builds",BUILD_NUMBER,"archive")
-def buildNumber = build.buildVariableResolver.resolve("buildNumber")
-def lastBuildFile = urlBuilderFile(buildDirectory,"DMZ-TEST",buildVersion,".lastBuild")
 
 def executeCommand(List<String> args)
 {
@@ -76,24 +74,6 @@ def downloadArtifact(def url)
         return 0
     }
 }
-def renameArtifact(def oldName, def newName)
-{
-    out("Renaming ${oldName} to ${newName}")
-    List<String> command = new ArrayList<String>()
-    command.add("mv")
-    command.add(oldName)
-    command.add(newName)
-    if (executeCommand(command) == 0)
-    {
-        out("Renamed successfully")
-        return 1
-    }
-    else
-    {
-        out("Renaming failed!")
-        return 0
-    }
-}
 def deleteArtifact(def name)
 {
     out("Deleting ${name}")
@@ -109,29 +89,6 @@ def deleteArtifact(def name)
     else
     {
         out("Delete command failed!")
-        return 0
-    }
-}
-def createLink(def linkWhat, def linkWhere, def deleteOldLink = 1)
-{
-    out("Creating link ${linkWhere}")
-    List<String> command = new ArrayList<String>()
-    command.add("ln")
-    command.add("-s")
-    command.add(linkWhat)
-    command.add(linkWhere)
-    if (deleteOldLink)
-    {
-        deleteArtifact(linkWhere)
-    }
-    if (executeCommand(command) == 0)
-    {
-        out("Successfully created")
-        return 1
-    }
-    else
-    {
-        out("Link creation failed!")
         return 0
     }
 }
@@ -207,13 +164,6 @@ def getBuildNumberFromFile(def path)
     }
     return result
 }
-def setBuildNumberFromFile(def number, def path)
-{
-    out("Writing ${number} to ${path}")
-    File file = new File(path)
-    file.write(number)
-    out("Done.")
-}
 void out(def message)
 {
     println("[OUTPUT] +${message}")
@@ -237,42 +187,130 @@ void changeBuildStatus(def code)
             break
     }
 }
+def runJob(def name, def number, def version)
+{
+    def job = Hudson.instance.getJob(name)
+    def anotherJob
+    try {
+        def params = [
+                new StringParameterValue('buildNumber', number),
+                new StringParameterValue('buildVersion', version),
+        ]
+        def future = job.scheduleBuild2(0, new Cause.UpstreamCause(build), new ParametersAction(params))
+        out("Waiting for the completion of " + HyperlinkNote.encodeTo('/' + job.url, job.fullDisplayName))
+        anotherBuild = future.get()
+    } catch (CancellationException x) {
+        throw new AbortException("${job.fullDisplayName} aborted.")
+    }
+    out(HyperlinkNote.encodeTo('/' + anotherBuild.url, anotherBuild.fullDisplayName) + " completed. Result was " + anotherBuild.result)
 
+    if (anotherBuild.result == Result.SUCCESS)
+    {
+        return 1
+    }
+    if (anotherBuild.result == Result.ABORTED)
+    {
+        return -1
+    }
+    else
+    {
+        return 0
+    }
+}
 try
 {
     //Initial info
     out("==========================INITIAL INFORMATION========================")
     out("JOB NAME = ${this.binding.build.project.name}")
-    out("BUILD VERSION = ${buildVersion}")
-    out("BUILD NUMBER LEGACY = ${buildNumber}")
-    out("BUILD NUMBER JENKINS = ${BUILD_NUMBER}")
+    out("MAIN JOB = ${mainJob}")
+    out("VERSION SPECIFIED = ${versionSpecified}")
     out("HOSTED LOCATION = ${hostedLocation}")
     out("WORKSPACE = ${this.binding.build.project.workspace}")
-    out("LAST BUILD FILE = ${lastBuildFile}")
     out("PENTAHO BUILDS PATH = ${buildDirectory}")
-    out("artifactsList = ")
-    artifactsList.each { print(it+", ") }
+    out("versionsList = ")
+    versionsList.each { print(it+", ") }
     println()
     out("===================END OF INITIAL INFORMATION========================")
 
     //Startup
-    createDir(urlBuilderDir(buildDirectory,"DMZ-TEST",buildVersion))
-    createFile(lastBuildFile)
-    if ((!buildNumber) || (!buildVersion))
-    {
-        out("Wrong parameter!")
-        out("Please use control job to run!")
-        changeBuildStatus(0)
-    }
 
-    //Main body
-    artifactsList.each {
-        out("Triggering download for ${it}")
-        changeBuildStatus(downloadArtifact(urlBuilderFile(hostedLocation, buildVersion, hostedVersion, it)))
-        changeBuildStatus(renameArtifact(urlBuilderFile(this.binding.build.project.workspace.toString(), it), urlBuilderFile(this.binding.build.project.workspace.toString(), "${buildVersion}-${buildNumber}-${it}")))
-        changeBuildStatus(createLink(buildArchive, urlBuilderFile(buildDirectory,"DMZ-TEST",buildVersion,buildNumber)))
-        changeBuildStatus(createLink(buildArchive, urlBuilderFile(buildDirectory,"DMZ-TEST",buildVersion,"LATEST")))
-        changeBuildStatus(setBuildNumberFromFile(buildNumber,lastBuildFile))
+    if (versionSpecified == "None")
+    {
+        versionsList.each {
+            def lastBuildFile = urlBuilderFile(buildDirectory,"DMZ-TEST",it,".lastBuild")
+            createDir(urlBuilderDir(buildDirectory,"DMZ-TEST",it))
+            createFile(lastBuildFile)
+
+            out("Getting actual build number")
+
+            downloadArtifact(urlBuilderFile(hostedLocation,it,hostedVersion,"build.info"))
+
+            def actualVersion = getBuildNumberFromFile(urlBuilderFile(this.binding.build.project.workspace.toString(),"build.info"))
+            def storedVersion = getBuildNumberFromFile(lastBuildFile)
+
+            deleteArtifact(urlBuilderFile(this.binding.build.project.workspace.toString(),"build.info"))
+
+            out("Actual build version = ${actualVersion}")
+            out("Actual version is ${actualVersion}. Last stored version is ${storedVersion}")
+            if (storedVersion != "")
+            {
+                if (storedVersion < actualVersion)
+                {
+                    out("New version detected. Downloading")
+                    changeBuildStatus(runJob(mainJob,actualVersion,it))
+                    return
+                }
+                else
+                {
+                    out("Stored version is ${storedVersion} not less than ${actualVersion}")
+                    return
+                }
+            }
+            else
+            {
+                out ("No stored data. Downloading actual version")
+                changeBuildStatus(runJob(mainJob,actualVersion,it))
+                return
+            }
+        }
+    }
+    else
+    {
+        def lastBuildFile = urlBuilderFile(buildDirectory,"DMZ-TEST",versionSpecified,".lastBuild")
+        createDir(urlBuilderDir(buildDirectory,"DMZ-TEST",versionSpecified))
+        createFile(lastBuildFile)
+
+        out("Getting actual build number")
+
+        downloadArtifact(urlBuilderFile(hostedLocation,versionSpecified,hostedVersion,"build.info"))
+
+        def actualVersion = getBuildNumberFromFile(urlBuilderFile(this.binding.build.project.workspace.toString(),"build.info"))
+        def storedVersion = getBuildNumberFromFile(lastBuildFile)
+
+        deleteArtifact(urlBuilderFile(this.binding.build.project.workspace.toString(),"build.info"))
+
+        out("Actual build version = ${actualVersion}")
+        out("Actual version is ${actualVersion}. Last stored version is ${storedVersion}")
+        if (storedVersion != "")
+        {
+            if (storedVersion < actualVersion)
+            {
+                out("New version detected. Downloading")
+                changeBuildStatus(runJob(mainJob,actualVersion,versionSpecified))
+                return
+            }
+            else
+            {
+                out("Stored version is ${storedVersion} not less than ${actualVersion}")
+                return
+            }
+        }
+        else
+        {
+            out ("No stored data. Downloading actual version")
+            changeBuildStatus(runJob(mainJob,actualVersion,it))
+            return
+        }
     }
 }
 catch(CancellationException x)

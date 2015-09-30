@@ -1,4 +1,4 @@
-package downloadLibrary
+package downloadbuildsviaplugin.lib
 
 import java.util.concurrent.CancellationException
 
