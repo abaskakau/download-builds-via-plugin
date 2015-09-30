@@ -1,7 +1,5 @@
 package downloadbuildsviaplugin
 
-import downloadbuildsviaplugin.lib.Library
-
 /**
  * Created by abaskakau on 9/30/15.
  */
