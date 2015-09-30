@@ -1,5 +1,3 @@
-package downloadbuildsviaplugin
-
 class Library {
     def executeCommand(List<String> args) {
         out("Invoking ${args}")

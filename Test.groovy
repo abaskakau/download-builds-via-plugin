@@ -1,4 +1,3 @@
-package downloadbuildsviaplugin
 
 /**
  * Created by abaskakau on 9/30/15.
@@ -7,3 +6,5 @@ package downloadbuildsviaplugin
 def script = new GroovyScriptEngine('.').with {
     loadScriptByName('Library.groovy')
 }
+
+out("asfd")

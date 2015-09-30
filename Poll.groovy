@@ -1,10 +1,3 @@
-package downloadbuildsviaplugin
-
-import hudson.model.*
-import hudson.AbortException
-import hudson.console.HyperlinkNote
-import java.util.concurrent.CancellationException
-
 String [] versionsList = [
         "6.0-NIGHTLY",
         "5.4-NIGHTLY",
