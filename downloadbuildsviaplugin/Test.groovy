@@ -6,4 +6,4 @@ package downloadbuildsviaplugin
 
 evaluate(new File(this.binding.build.project.workspace.toString()+"/downloadbuildsviaplugin/lib/Library.groovy"))
 
-Library.out("test")
+out("asd")
