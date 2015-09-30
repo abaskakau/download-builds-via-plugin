@@ -3,6 +3,4 @@
  */
 import downloadLibrary.*
 
-Library library = new Library()
-
-library.out("Hello World")
+Library.out("Hello World")
