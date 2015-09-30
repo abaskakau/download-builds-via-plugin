@@ -116,7 +116,8 @@ class Library {
         BufferedReader reader = new BufferedReader(new InputStreamReader(output))
 
         def result = ""
-
+        def line
+        
         while ((line = reader.readLine()) != null) {
             println(line)
             result += line
