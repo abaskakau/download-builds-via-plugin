@@ -1,3 +1,8 @@
+import hudson.model.*
+import hudson.AbortException
+import hudson.console.HyperlinkNote
+import java.util.concurrent.CancellationException
+
 def script = new GroovyScriptEngine(this.binding.build.project.workspace.toString()).with {
     loadScriptByName('Library.groovy')
 }
