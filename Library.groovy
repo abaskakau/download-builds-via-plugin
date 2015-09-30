@@ -13,9 +13,6 @@ def executeCommand(List<String> args) {
 
     InputStream output = process.getInputStream()
     BufferedReader reader = new BufferedReader(new InputStreamReader(output))
-
-    def line
-
     while ((line = reader.readLine()) != null) {
         println(line)
     }
