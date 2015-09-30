@@ -1,7 +1,7 @@
-import hudson.model.*
-import hudson.AbortException
-import hudson.console.HyperlinkNote
-import java.util.concurrent.CancellationException
+def script = new GroovyScriptEngine(this.binding.build.project.workspace.toString()).with {
+    loadScriptByName('Library.groovy')
+}
+this.metaClass.mixin script
 
 String [] versionsList = [
         "6.0-NIGHTLY",
@@ -14,11 +14,6 @@ def mainJob = build.buildVariableResolver.resolve("mainJob")
 def versionSpecified = build.buildVariableResolver.resolve("versionSpecified")
 def hostedLocation = "http://10.177.176.213/hosted"
 def hostedVersion = "latest"
-
-def script = new GroovyScriptEngine(this.binding.build.project.workspace.toString()).with {
-    loadScriptByName('Library.groovy')
-}
-this.metaClass.mixin script
 
 try
 {
