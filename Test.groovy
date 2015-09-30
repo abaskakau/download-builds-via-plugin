@@ -6,5 +6,6 @@
 def script = new GroovyScriptEngine(this.binding.build.project.workspace.toString()).with {
     loadScriptByName('Library.groovy')
 }
+this.metaClass.mixin script
 
 out("asfd")
