@@ -4,7 +4,7 @@
  */
 
 def script = new GroovyScriptEngine().with {
-    loadScriptByName('Main.groovy')
+    loadScriptByName('Library.groovy')
 }
 
 out("asfd")
