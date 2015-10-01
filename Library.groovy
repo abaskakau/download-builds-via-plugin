@@ -117,7 +117,7 @@ class Library {
 
         def result = ""
         def line
-        
+
         while ((line = reader.readLine()) != null) {
             println(line)
             result += line
@@ -157,7 +157,7 @@ class Library {
 
     def runJob(def name, def number, def version) {
         def job = Hudson.instance.getJob(name)
-        def anotherJob
+        def anotherBuild
         try {
             def params = [
                     new StringParameterValue('buildNumber', number),
