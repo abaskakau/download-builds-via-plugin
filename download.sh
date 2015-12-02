@@ -25,4 +25,5 @@ while true; do
 
     mv ${1} ${artifactsStorage}/${aVersion}-${aBuildNumber}-${1}
     linkArtifact ${aVersion}-${aBuildNumber}-${1} ${aBuildNumber}
+    break
 done

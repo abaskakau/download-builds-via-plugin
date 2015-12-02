@@ -19,11 +19,20 @@ if [ "MANUALTRIGGER" == "$BUILD_CAUSE" ]; then
 fi
 
 #Download
+touch it
+itc = 0
 for i in $(seq ${#fileToDownload[@]})
 do
     ./download.sh ${fileToDownload[i]} ${buildNumberHosted} ${buildVersion} &
+    let "itc += 1"
 done
 
+while true; do
+    if [ `head -n1 it` -lt "$itc" ]; then
+        sleep 10
+    else break
+  fi
+done
 #Linking
 
 #Discard old builds
