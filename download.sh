@@ -36,4 +36,5 @@ while true; do
     fi
 done
 
+echo "${1} just had downloaded successfully"
 increaseCounter
