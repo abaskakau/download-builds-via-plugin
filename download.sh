@@ -14,16 +14,26 @@ function linkArtifact {
     mkdir -p $linkPath/${2}
     ln -s $artifactsStorage/${1} $linkPath/${2}/${1}
 }
+function increaseCounter {
+    itc=`head -n1 it`
+    let "itc+=1"
+    echo itc > it
 
+}
 echo "I'm going to download ${1}"
 
 while true; do
     #Downloading Artifact
-    aria2c ${ariaConfiguration} $baseURL/${1}
-    #Identifying Artifact
-    identifyArtifact ${1}
-
-    mv ${1} ${artifactsStorage}/${aVersion}-${aBuildNumber}-${1}
-    linkArtifact ${aVersion}-${aBuildNumber}-${1} ${aBuildNumber}
-    break
+    if [[ -not $(aria2c ${ariaConfiguration} $baseURL/${1}) ]]; then
+        #Identifying Artifact
+        identifyArtifact ${1}
+        if [[ $aBuildNumber == $buildNumberHosted ]]; then
+            mv ${1} ${artifactsStorage}/${aVersion}-${aBuildNumber}-${1}
+            linkArtifact ${aVersion}-${aBuildNumber}-${1} ${aBuildNumber}
+            break
+        else rm -rf ${1}
+        fi
+    fi
 done
+
+increaseCounter

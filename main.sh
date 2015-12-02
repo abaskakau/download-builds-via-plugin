@@ -12,14 +12,14 @@ buildNumberHosted=`curl $baseURL/build.info | head -n1`
 
 #Additional checks
 if [ "MANUALTRIGGER" == "$BUILD_CAUSE" ]; then
-  if [ "$buildNumberHosted" == `head -n1 $dataFile` ]; then
+  if [[ $buildNumberHosted == $(head -n1 $dataFile) ]]; then
     echo "There are no new builds"
     exit 0
   fi
 fi
 
 #Download
-touch it
+echo 0 > it
 itc = 0
 for i in $(seq ${#fileToDownload[@]})
 do
@@ -28,12 +28,16 @@ do
 done
 
 while true; do
+    if [[ $timeout -le 0 ]]; then
+        echo "Timeout reached"
+        exit 1
+    fi
     if [[ $(head -n1 it) -lt $itc ]]; then
         sleep 10
+        let "timeout -= 10"
     else break
   fi
 done
-#Linking
 
 #Discard old builds
 deletionNumber=${buildNumber}
