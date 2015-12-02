@@ -24,7 +24,7 @@ echo "I'm going to download ${1}"
 
 while true; do
     #Downloading Artifact
-    if [[ -not $(aria2c ${ariaConfiguration} $baseURL/${1}) ]]; then
+    if [[ $(aria2c ${ariaConfiguration} $baseURL/${1}) == 0 ]]; then
         #Identifying Artifact
         identifyArtifact ${1}
         if [[ $aBuildNumber == $buildNumberHosted ]]; then

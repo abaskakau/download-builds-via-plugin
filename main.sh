@@ -20,7 +20,7 @@ fi
 
 #Download
 echo 0 > it
-itc = 0
+itc=0
 for i in $(seq ${#fileToDownload[@]})
 do
     ./download.sh ${fileToDownload[i]} ${buildNumberHosted} ${buildVersion} &
