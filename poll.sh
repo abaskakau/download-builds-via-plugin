@@ -24,7 +24,7 @@ do
 
   #Triggering the build
   if [ "$buildNumberLast" -lt "$buildNumberAct" ]; then
-    tempFile="$HOME/.download_TEMP"
+    tempFile="$HOME/.download_TEMP1"
     echo ${buildVersions[i]} > $tempFile
     echo "Triggering build for ${buildVersions[i]}-${buildNumberAct}"
     exit 0
