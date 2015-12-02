@@ -27,6 +27,8 @@ do
     let "itc += 1"
 done
 
+echo "Waiting until all downloads will be finished"
+
 while true; do
     if [[ $timeout -le 0 ]]; then
         echo "Timeout reached"
@@ -38,6 +40,8 @@ while true; do
     else break
   fi
 done
+
+echo "Congrats. All the files had been downloaded and identifyed. There are some messy steps left"
 
 #Discard old builds
 deletionNumber=${buildNumber}

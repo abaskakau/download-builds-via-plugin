@@ -24,17 +24,23 @@ echo "I'm going to download ${1}"
 
 while true; do
     #Downloading Artifact
+    echo "Starting the download"
     if [[ $(aria2c ${ariaConfiguration} $baseURL/${1}) == 0 ]]; then
+        echo "Download finished successfully. Status code 0. Let me try to identify what it was"
         #Identifying Artifact
         identifyArtifact ${1}
         if [[ $aBuildNumber == $buildNumberHosted ]]; then
+            echo "Great. That was what we expected. Storing the file"
             mv ${1} ${artifactsStorage}/${aVersion}-${aBuildNumber}-${1}
             linkArtifact ${aVersion}-${aBuildNumber}-${1} ${aBuildNumber}
             break
-        else rm -rf ${1}
+        else
+            echo "Unrecognized or unnecessary stuff. Burning it down and trying again"
+            rm -rf ${1}
         fi
     fi
 done
 
-echo "${1} just have been downloaded successfully"
+echo "${1} just have been downloaded successfully. All tests passed. Terminating the script with code 0"
 increaseCounter
+exit 0
