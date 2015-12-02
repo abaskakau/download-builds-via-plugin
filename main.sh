@@ -6,11 +6,10 @@ if [ "XTRIGGERCAUSE" == "$BUILD_CAUSE" ]; then
 fi
 
 echo "Triggered $buildVersion"
+buildNumberHosted=`curl $basePath/build.info | head -n1`
 
-dataFile="$HOME/.download_${buildVersion}"
-basePath="http://10.177.176.213/hosted/${buildVersion}/latest"
-buildNumber=`curl $basePath/build.info | head -n1`
-
+source properties.sh
+source functions.sh
 
 #Additional checks
 if [ "MANUALTRIGGER" == "$BUILD_CAUSE" ]; then
@@ -20,35 +19,13 @@ if [ "MANUALTRIGGER" == "$BUILD_CAUSE" ]; then
   fi
 fi
 
-buildPath="`dirname $WORKSPACE`/builds/$BUILD_ID/archive"
-
-DOWNLOAD[1]=pentaho-business-analytics-x64.exe
-DOWNLOAD[2]=biserver-ee.zip
-DOWNLOAD[3]=pdi-ee.zip
-DOWNLOAD[4]=pentaho-business-analytics-x64.app.tar.gz
-DOWNLOAD[5]=pentaho-business-analytics-x64.bin
-
-tempLink="$PENTAHO_BUILDS_PATH/DMZ"
-rm -rf $tempLink/CurrentDownload
-ln -s $buildPath $tempLink/CurrentDownload
-
-
 #Download
-for i in $(seq ${#DOWNLOAD[@]})
+for i in $(seq ${#fileToDownload[@]})
 do
-  aria2c ${ARIA_PARAMETERS} --dir=$buildPath $basePath/${DOWNLOAD[i]}
-  mv ${buildPath}/${DOWNLOAD[i]} $buildPath/$buildVersion-$buildNumber-${DOWNLOAD[i]}
+    ./download.sh ${fileToDownload[i]} ${buildNumberHosted} ${buildVersion} &
 done
 
-rm -rf $tempLink/CurrentDownload
-
 #Linking
-linkPath="$PENTAHO_BUILDS_PATH/DMZ/${buildVersion}"
-buildPath="`dirname $WORKSPACE`/builds/$BUILD_NUMBER/archive"
-mkdir -p $linkPath
-ln -s $buildPath $linkPath/${buildNumber}
-rm -rf $linkPath/LATEST
-ln -s $linkPath/${buildNumber} $linkPath/LATEST
 
 #Discard old builds
 deletionNumber=${buildNumber}
