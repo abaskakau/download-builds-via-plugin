@@ -12,7 +12,7 @@ source properties.sh
 
 #Additional checks
 if [ "MANUALTRIGGER" == "$BUILD_CAUSE" ]; then
-  if [[ $buildNumber == `head -n1 $dataFile` ]]; then
+  if [ "$buildNumberHosted" == `head -n1 $dataFile` ]; then
     echo "There are no new builds"
     exit 0
   fi
