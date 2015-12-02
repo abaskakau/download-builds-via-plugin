@@ -6,9 +6,9 @@ if [ "XTRIGGERCAUSE" == "$BUILD_CAUSE" ]; then
 fi
 
 echo "Triggered $buildVersion"
-buildNumberHosted=`curl $basePath/build.info | head -n1`
 
 source properties.sh
+buildNumberHosted=`curl $baseURL/build.info | head -n1`
 
 #Additional checks
 if [ "MANUALTRIGGER" == "$BUILD_CAUSE" ]; then
