@@ -28,7 +28,7 @@ do
 done
 
 while true; do
-    if [ `head -n1 it` -lt "$itc" ]; then
+    if [[ $(head -n1 it) -lt $itc ]]; then
         sleep 10
     else break
   fi
