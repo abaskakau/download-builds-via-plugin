@@ -15,6 +15,8 @@ function linkArtifact {
     ln -s $artifactsStorage/${1} $linkPath/${2}/${1}
 }
 
+echo "I'm going to download ${1}"
+
 while true; do
     #Downloading Artifact
     aria2c ${ariaConfiguration} $baseURL/${1}
