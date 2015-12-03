@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ "XTRIGGERCAUSE" == "$BUILD_CAUSE" ]; then
-  tempFile="$HOME/.download_TEMP1"
+  tempFile="$HOME/.download_TEMP"
   buildVersion=`head -n1 $tempFile`
 fi
 

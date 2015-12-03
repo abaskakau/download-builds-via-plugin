@@ -2,13 +2,13 @@
 
 #Set buildVersion and buildNumberHosted before include
 
-dataFile="$HOME/.download_${buildVersion}1"
+dataFile="$HOME/.download_${buildVersion}"
 touch $dataFile
 artifactsStorage="`dirname $WORKSPACE`/builds/$BUILD_ID/archive"
 mkdir -p $artifactsStorage
 baseURL="http://10.177.176.213/hosted/${buildVersion}/latest"
 ariaConfiguration="--max-tries=20 --retry-wait=30 -x 5 -s 5"
-linkPath="$PENTAHO_BUILDS_PATH/DMZ1/${buildVersion}"
+linkPath="$PENTAHO_BUILDS_PATH/DMZ/${buildVersion}"
 timeout=21600 #6 hours in seconds
 retries=5
 
