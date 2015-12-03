@@ -18,7 +18,7 @@ function linkArtifact {
 function increaseCounter {
     itc=`head -n1 it`
     let "itc+=1"
-    echo itc > it
+    echo $itc > it
 }
 function executeCommand {
     "$@"
