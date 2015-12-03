@@ -10,6 +10,8 @@ echo "Triggered $buildVersion"
 source properties.sh
 buildNumberHosted=`curl $baseURL/build.info | head -n1`
 
+echo "$buildNumberHosted recieved"
+
 #Additional checks
 if [ "MANUALTRIGGER" == "$BUILD_CAUSE" ]; then
   if [[ $buildNumberHosted == $(head -n1 $dataFile) ]]; then
