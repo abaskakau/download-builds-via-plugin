@@ -27,14 +27,14 @@ do
     let "itc += 1"
 done
 
-echo "Waiting until all downloads will be finished"
+echo "Waiting until all downloads will be finished (${itc})"
 
 while true; do
     if [[ $timeout -le 0 ]]; then
         echo "Timeout reached"
         exit 1
     fi
-    if [[ $(head -n1 it) -ge $itc ]]; then
+    if [[ $(head -n1 it) -lt $itc ]]; then
         sleep 10
         let "timeout -= 10"
     else break
