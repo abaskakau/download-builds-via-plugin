@@ -56,4 +56,4 @@ do
   rm -rf $linkPath/$i
 done
 
-echo "${buildNumber}" > $dataFile
+echo "${buildNumberHosted}" > $dataFile
