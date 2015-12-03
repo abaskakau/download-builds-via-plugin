@@ -6,7 +6,7 @@ buildVersion=${3}
 source properties.sh
 
 function identifyArtifact {
-    OUT=`egrep -a -o -m 1 "([0-9]\.){3}[0-9]-[^/]*?.jar" $1 | sed -e 's/.jar//'`
+    OUT=`egrep -a -o -m 1 "([0-9]\.){3}[0-9]-[^/]*?.jar" $1 | sed -e 's/.jar//'` #A binary search
     IFS=- read aVersion aBuildNumber <<< "${OUT}"
 }
 function linkArtifact {
@@ -47,7 +47,7 @@ while true; do
             break
         else
             echo "[$1] Unrecognized or unnecessary stuff. Burning it down and trying again"
-            rm -rf ${1}
+            rm -rf ${1} ${1}.aria2
         fi
     else
         echo "[$1] Download failed for some reason. Retrying"
