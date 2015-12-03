@@ -13,7 +13,7 @@ timeout=21600 #6 hours in seconds
 retries=5
 
 fileToDownload[1]=pentaho-business-analytics-x64.exe
-#fileToDownload[2]=biserver-ee.zip
-#fileToDownload[3]=pdi-ee.zip
-#fileToDownload[4]=pentaho-business-analytics-x64.app.tar.gz
-#fileToDownload[5]=pentaho-business-analytics-x64.bin
+fileToDownload[2]=biserver-ee.zip
+fileToDownload[3]=pdi-ee.zip
+fileToDownload[4]=pentaho-business-analytics-x64.app.tar.gz
+fileToDownload[5]=pentaho-business-analytics-x64.bin

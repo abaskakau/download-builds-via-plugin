@@ -12,6 +12,7 @@ function identifyArtifact {
 function linkArtifact {
     # 1 - artifact name; 2 - buildNumber
     mkdir -p $linkPath/${2}
+    rm -rf $linkPath/${2}/${1}
     ln -s $artifactsStorage/${1} $linkPath/${2}/${1}
 }
 function increaseCounter {
