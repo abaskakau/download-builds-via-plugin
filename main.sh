@@ -34,7 +34,7 @@ while true; do
         echo "Timeout reached"
         exit 1
     fi
-    if [[ $(head -n1 it) -lt $itc ]]; then
+    if [[ $(head -n1 it) -ge $itc ]]; then
         sleep 10
         let "timeout -= 10"
     else break
@@ -49,7 +49,7 @@ let "deletionNumber -= 6"
 echo "The script is going to delete ${deletionNumber} and older"
 for i in $(seq ${deletionNumber})
 do
-  rm -rf $linkPath/$i/*
+  rm -rf $linkPath/$i/*/
   rm -rf $linkPath/$i
 done
 
