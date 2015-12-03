@@ -51,6 +51,7 @@ for i in $(seq ${deletionNumber})
 do
   rm -rf `readlink -f $linkPath/${i}/*`
   rm -rf $linkPath/$i/*
+  rm -rf $linkPath/$i
 done
 
 echo "${buildNumber}" > $dataFile
