@@ -19,16 +19,21 @@ function increaseCounter {
     let "itc+=1"
     echo itc > it
 }
+function executeCommand {
+    "$@"
+    dStatus=$?
+}
 echo "I'm going to download ${1}"
 
 while true; do
     if [[ $retries -le 0 ]]; then
-        echo "[$1] Sadly but it seems i already did everything i could. Terminating script with code 1 :("
+        echo "[$1] Sadly but it seems i already did everything i could. Terminating the script with code 1 :("
         exit 1
     fi
     #Downloading Artifact
     echo "[$1] Starting the download"
-    if [[ $(aria2c ${ariaConfiguration} $baseURL/${1}) == 0 ]]; then
+    executeCommand aria2c ${ariaConfiguration} $baseURL/${1}
+    if [[ $dStatus == 0 ]]; then
         echo "[$1] Download finished successfully. Status code 0. Let me try to identify what it was"
         #Identifying Artifact
         identifyArtifact ${1}
@@ -41,10 +46,12 @@ while true; do
             echo "[$1] Unrecognized or unnecessary stuff. Burning it down and trying again"
             rm -rf ${1}
         fi
+    else
+        echo "[$1] Download failed for some reason. Retrying"
     fi
     let "retries -= 1"
 done
 
-echo "${1} just have been downloaded successfully. All tests passed. Terminating the script with code 0"
+echo "${1} just have been downloaded successfully. All tests passed. Terminating the script with code 0 :)"
 increaseCounter
 exit 0
