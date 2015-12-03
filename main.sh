@@ -45,12 +45,12 @@ echo "Congrats. All the files had been downloaded and identifyed. There are some
 
 #Discard old builds
 deletionNumber=${buildNumber}
-let "deletionNumber -= 6"
+let "deletionNumber -= buildsToKeep"
 echo "The script is going to delete ${deletionNumber} and older"
 for i in $(seq ${deletionNumber})
 do
-  rm -rf $linkPath/$i/*/
-  rm -rf $linkPath/$i
+  rm -rf `readlink -f $linkPath/${i}/*`
+  rm -rf $linkPath/$i/*
 done
 
 echo "${buildNumber}" > $dataFile
