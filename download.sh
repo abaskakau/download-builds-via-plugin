@@ -32,6 +32,9 @@ while true; do
     fi
     #Downloading Artifact
     echo "[$1] Starting the download"
+    if [ -f "$1.aria2" ]; then
+        echo "[$1] Unfinished download detected. Aria should continue the download"
+    fi
     executeCommand aria2c ${ariaConfiguration} $baseURL/${1}
     if [[ $dStatus == 0 ]]; then
         echo "[$1] Download finished successfully. Status code 0. Let me try to identify what it was"

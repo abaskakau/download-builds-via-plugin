@@ -6,7 +6,7 @@ dataFile="$HOME/.download_${buildVersion}1"
 touch $dataFile
 artifactsStorage="`dirname $WORKSPACE`/builds/$BUILD_ID/archive"
 baseURL="http://10.177.176.213/hosted/${buildVersion}/latest"
-ariaConfiguration="--max-tries=20 --retry-wait=30 -x 4 -s 4"
+ariaConfiguration="--max-tries=20 --retry-wait=30 -x 5 -s 5"
 linkPath="$PENTAHO_BUILDS_PATH/DMZ1/${buildVersion}"
 timeout=36000 #10 hours
 retries=5
