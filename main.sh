@@ -30,6 +30,7 @@ do
 done
 
 echo "Waiting until all downloads will be finished (${itc})"
+echo "${buildNumberHosted}" > $dataFile
 
 while true; do
     if [[ $timeout -le 0 ]]; then
@@ -55,5 +56,3 @@ do
   rm -rf $linkPath/$i/*
   rm -rf $linkPath/$i
 done
-
-echo "${buildNumberHosted}" > $dataFile

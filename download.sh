@@ -53,6 +53,7 @@ while true; do
         echo "[$1] Download failed for some reason. Retrying"
     fi
     let "retries -= 1"
+    sleep 30
 done
 
 echo "${1} just have been downloaded successfully. All tests passed. Terminating the script with code 0 :)"
