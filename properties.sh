@@ -12,6 +12,8 @@ linkPath="$PENTAHO_BUILDS_PATH/DMZ/${buildVersion}"
 timeout=21600 #6 hours in seconds
 retries=5
 buildsToKeep=6
+saveFailedArtifacts="${linkPath}/burned"
+mkdir -p $saveFailedArtifacts
 
 fileToDownload[1]=pentaho-business-analytics-x64.exe
 fileToDownload[2]=biserver-ee.zip

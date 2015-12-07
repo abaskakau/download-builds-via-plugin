@@ -47,7 +47,11 @@ while true; do
             break
         else
             echo "[$1] Unrecognized or unnecessary stuff. Burning it down and trying again"
-            rm -rf ${1} ${1}.aria2
+            if [ -z "$saveFailedArtifacts" ]; then
+                rm -rf ${1} ${1}.aria2
+            else
+                mv ${1} ${saveFailedArtifacts}/${1}
+            fi
         fi
     else
         echo "[$1] Download failed for some reason. Retrying"
