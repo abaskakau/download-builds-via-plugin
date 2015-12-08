@@ -50,7 +50,11 @@ while true; do
             if [ -z "$saveFailedArtifacts" ]; then
                 rm -rf ${1} ${1}.aria2
             else
-                mv ${1} ${saveFailedArtifacts}/${1}
+                if [ -z "$aBuildNumber" ] || [ -z "$aVersion" ]; then
+                    mv ${1} ${saveFailedArtifacts}/${1}
+                else
+                    rm -rf ${1} ${1}.aria2
+                fi
             fi
         fi
     else
