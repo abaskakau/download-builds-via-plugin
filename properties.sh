@@ -10,7 +10,7 @@ baseURL="http://10.177.176.213/hosted/${buildVersion}/latest"
 ariaConfiguration="--max-tries=20 --retry-wait=30 -x 5 -s 5"
 linkPath="$PENTAHO_BUILDS_PATH/DMZ/${buildVersion}"
 timeout=21600 #6 hours in seconds
-retries=5
+retries=4
 buildsToKeep=4
 saveFailedArtifacts="${linkPath}/${buildNumberHosted}/burned" #Comment this line to delete all wrong files
 

@@ -26,14 +26,29 @@ function executeCommand {
 function renameArtifact {
     # 1 - artifactName 2 - buildVersion 3 - buildNumber
     IFS=. read aNamePart aExtensionPart <<< "${1}"
-    aNewName="${aNamePart}-${2}-${3}.${aExtensionPart}"
+    if [[ $aNamePart == *"-x64"* ]]; then
+        aNamePart=`echo $aNamePart | sed -e 's/-x64//'`
+        aNewName="${aNamePart}-${2}-${3}-x64.${aExtensionPart}"
+    else
+        aNewName="${aNamePart}-${2}-${3}.${aExtensionPart}"
+    fi
 }
 echo "I'm going to download ${1}"
 
 while true; do
-    if [[ $retries -le 0 ]]; then
-        echo "[$1] Sadly but it seems i already did everything i could. Terminating the script with code 1 :("
-        exit 1
+    if [[ $retries -le 1 ]]; then
+        echo "The Last Attempt. I'm going to get this file from the Box"
+        renameArtifact ${1} ${buildVersion} ${buildNumberHosted}
+        executeCommand aria2c ${ariaConfiguration} ftp://ftp.box.com/CI/${buildVersion}/${buildNumberHosted}/${aNewName}
+        if [[ $dStatus == 0 ]]; then
+            echo "That was another time when pentaho gave us some crap we should sort. Anyway we got the file from the alternative storage"
+            mv ${1} ${artifactsStorage}/${aNewName}
+            linkArtifact ${aNewName} ${buildNumberHosted}
+            break
+        else
+            echo "[$1] Sadly but it seems i already did everything i could. Terminating the script with code 1 :("
+            exit 1
+        fi
     fi
     #Downloading Artifact
     echo "[$1] Starting the download"
