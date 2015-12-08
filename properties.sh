@@ -11,7 +11,7 @@ ariaConfiguration="--max-tries=20 --retry-wait=30 -x 5 -s 5"
 linkPath="$PENTAHO_BUILDS_PATH/DMZ/${buildVersion}"
 timeout=21600 #6 hours in seconds
 retries=5
-buildsToKeep=6
+buildsToKeep=4
 saveFailedArtifacts="${linkPath}/burned"
 mkdir -p $saveFailedArtifacts
 
