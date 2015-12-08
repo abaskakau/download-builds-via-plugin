@@ -51,6 +51,7 @@ while true; do
                 rm -rf ${1} ${1}.aria2
             else
                 if [ -z "$aBuildNumber" ] || [ -z "$aVersion" ]; then
+                    mkdir -p $saveFailedArtifacts
                     mv ${1} ${saveFailedArtifacts}/${1}
                 else
                     rm -rf ${1} ${1}.aria2
