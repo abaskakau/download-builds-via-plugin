@@ -23,6 +23,11 @@ function executeCommand {
     "$@"
     dStatus=$?
 }
+function renameArtifact {
+    # 1 - artifactName 2 - buildVersion 3 - buildNumber
+    IFS=. read aNamePart aExtensionPart <<< "${1}"
+    aNewName="${aNamePart}-${2}-${3}.${aExtensionPart}"
+}
 echo "I'm going to download ${1}"
 
 while true; do
@@ -42,8 +47,9 @@ while true; do
         identifyArtifact ${1}
         if [[ $aBuildNumber == $buildNumberHosted ]]; then
             echo "[$1] Great. That was what we expected. Storing the file"
-            mv ${1} ${artifactsStorage}/${aVersion}-${aBuildNumber}-${1}
-            linkArtifact ${aVersion}-${aBuildNumber}-${1} ${aBuildNumber}
+            renameArtifact ${1} ${aVersion} ${aBuildNumber}
+            mv ${1} ${artifactsStorage}/${aNewName}
+            linkArtifact ${aNewName} ${aBuildNumber}
             break
         else
             echo "[$1] Unrecognized or unnecessary stuff. Burning it down and trying again"
