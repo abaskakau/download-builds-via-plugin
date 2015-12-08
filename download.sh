@@ -75,6 +75,7 @@ while true; do
                     echo "[CRITICAL] Script parse error!!!"
                     mkdir -p $saveFailedArtifacts
                     mv ${1} ${saveFailedArtifacts}/${1}
+                    exit 1
                 else
                     rm -rf ${1} ${1}.aria2
                 fi
