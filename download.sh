@@ -53,6 +53,7 @@ if [[ $buildVersion == "5.4-NIGHTLY" ]]; then
     echo "Executing special download mechanism for 5.4-NIGHTLY"
     while true; do
         if [[ $retries -le 1 ]]; then
+            renameArtifact54NIGHTLY ${1} ${buildVersion}
             executeCommand aria2c ${ariaConfiguration} ftp://ftp.box.com/CI/${buildVersion}/${buildNumberHosted}/${aNewName}
             if [[ $dStatus == 0 ]]; then
                 mv ${aNewName} ${artifactsStorage}/${aNewName}
