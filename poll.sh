@@ -2,7 +2,7 @@
 
 buildVersions[1]="6.1.0.0"
 buildVersions[2]="6.0-NIGHTLY"
-buildVersions[4]="5.4-NIGHTLY"
+buildVersions[3]="5.4-NIGHTLY"
 
 for i in $(seq ${#buildVersions[@]})
 do
