@@ -52,8 +52,16 @@ echo "I'm going to download ${1}"
 if [[ $buildVersion == "5.4-NIGHTLY" ]]; then
     echo "Executing special download mechanism for 5.4-NIGHTLY"
     while true; do
-        if [[ $retries -le 0 ]]; then
-            exit 1
+        if [[ $retries -le 1 ]]; then
+            executeCommand aria2c ${ariaConfiguration} ftp://ftp.box.com/CI/${buildVersion}/${buildNumberHosted}/${aNewName}
+            if [[ $dStatus == 0 ]]; then
+                mv ${aNewName} ${artifactsStorage}/${aNewName}
+                linkArtifact ${aNewName} ${buildNumberHosted}
+                increaseCounter
+                exit 0
+            else
+                exit 1
+            fi
         fi
         renameArtifact54NIGHTLY ${1} ${buildVersion}
         executeCommand aria2c ${ariaConfiguration} ftp://ftp.box.com/CI/${buildVersion}/${buildNumberHosted}/${aNewName} $baseURL/${1}
