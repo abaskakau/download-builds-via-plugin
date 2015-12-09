@@ -60,6 +60,7 @@ if [[ $buildVersion == "5.4-NIGHTLY" ]]; then
         if [[ $dStatus == 0 ]]; then
             mv ${aNewName} ${artifactsStorage}/${aNewName}
             linkArtifact ${aNewName} ${buildNumberHosted}
+            increaseCounter
             exit 0
         fi
         let "retries -= 1"
