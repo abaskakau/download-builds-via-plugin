@@ -6,8 +6,12 @@ buildVersion=${3}
 source properties.sh
 
 function identifyArtifact {
-    OUT=`egrep -a -o -m 1 "([0-9]\.){3}[0-9]-[^/]*?.jar" $1 | sed -e 's/.jar//'` #A binary search
+    OUT=`egrep -a -o -m 1 "(6.1.0.0|6.0-NIGHTLY)[-]([0-9]){2}([0-9])?" $1` #A binary search
     IFS=- read aVersion aBuildNumber <<< "${OUT}"
+    if [[ $aBuildNumber == *"-"* ]]; then
+        IFS=- read aType aBuildNumber <<< "${aBuildNumber}"
+        aVersion="${aVersion}-${aType}"
+    fi
 }
 function linkArtifact {
     # 1 - artifact name; 2 - buildNumber
