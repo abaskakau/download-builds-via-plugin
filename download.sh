@@ -51,6 +51,9 @@ echo "I'm going to download ${1}"
 
 if [[ $buildVersion == "5.4-NIGHTLY" ]]; then
     echo "Executing special download mechanism for 5.4-NIGHTLY"
+    if [ "${1}" == "${fileToDownload[3]}" ] || [ "${1}" == "${fileToDownload[2]}" ]; then
+        exit 0
+    fi
     while true; do
         if [[ $retries -le 0 ]]; then
             exit 1
