@@ -48,7 +48,7 @@ echo "I'm going to download ${1}"
 if [[ $buildVersion == "5.4-NIGHTLY" ]]; then
     echo "Executing special download mechanism for 5.4-NIGHTLY"
     while true; do
-        if [[ $retries -le 0]]; then
+        if [[ $retries -le 0 ]]; then
             exit 1
         fi
         renameArtifact54NIGHTLY ${1} ${buildVersion}
