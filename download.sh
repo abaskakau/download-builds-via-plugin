@@ -56,7 +56,7 @@ if [[ $buildVersion == "5.4-NIGHTLY" ]]; then
             exit 1
         fi
         renameArtifact54NIGHTLY ${1} ${buildVersion}
-        executeCommand aria2c ${ariaConfiguration} ftp://ftp.box.com/CI/${buildVersion}/${buildNumberHosted}/${aNewName}
+        executeCommand aria2c ${ariaConfiguration} ftp://ftp.box.com/CI/${buildVersion}/${buildNumberHosted}/${aNewName} $baseURL/${1}
         if [[ $dStatus == 0 ]]; then
             mv ${aNewName} ${artifactsStorage}/${aNewName}
             linkArtifact ${aNewName} ${buildNumberHosted}
