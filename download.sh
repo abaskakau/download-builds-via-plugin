@@ -77,6 +77,11 @@ if [[ $buildVersion == "5.4-NIGHTLY" ]]; then
     done
 fi
 
+if [[ $buildVersion == "6.0-NIGHTLY" ]]; then
+    echo "Waiting while build will be uploaded"
+    sleep 600
+fi
+
 while true; do
     if [[ $retries -le 1 ]]; then
         echo "The Last Attempt. I'm going to get this file from the Box"
