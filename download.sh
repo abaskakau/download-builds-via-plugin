@@ -79,7 +79,7 @@ fi
 
 if [[ $buildVersion == "6.0-NIGHTLY" ]]; then
     echo "Waiting while build will be uploaded"
-    sleep 600
+    sleep 1800
 fi
 
 while true; do
