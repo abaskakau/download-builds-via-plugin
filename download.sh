@@ -47,10 +47,9 @@ function renameArtifact54NIGHTLY {
         aNewName="${aNamePart}-${2}.${aExtensionPart}"
     fi
 }
-echo "I'm going to download ${1}"
 
 if [[ $buildVersion == "5.4-NIGHTLY" ]]; then
-    echo "Executing special download mechanism for 5.4-NIGHTLY"
+    echo "[$1] Executing special download mechanism for 5.4-NIGHTLY"
     while true; do
         if [[ $retries -le 1 ]]; then
             renameArtifact54NIGHTLY ${1} ${buildVersion}
@@ -78,17 +77,17 @@ if [[ $buildVersion == "5.4-NIGHTLY" ]]; then
 fi
 
 if [[ $buildVersion == "6.0-NIGHTLY" ]]; then
-    echo "Waiting while build will be uploaded"
+    echo "[$1] Waiting while build will be uploaded"
     sleep 1800
 fi
 
 while true; do
     if [[ $retries -le 1 ]]; then
-        echo "The Last Attempt. I'm going to get this file from the Box"
+        echo "[$1] The Last Attempt. I'm going to get this file from the Box"
         renameArtifact ${1} ${buildVersion} ${buildNumberHosted}
         executeCommand aria2c ${ariaConfiguration} ftp://ftp.box.com/CI/${buildVersion}/${buildNumberHosted}/${aNewName}
         if [[ $dStatus == 0 ]]; then
-            echo "That was another time when pentaho gave us some crap we should sort. Anyway we got the file from the alternative storage"
+            echo "[$1] That was another time when pentaho gave us some crap we should sort. Anyway we got the file from the alternative storage"
             mv ${1} ${artifactsStorage}/${aNewName}
             linkArtifact ${aNewName} ${buildNumberHosted}
             break
@@ -115,7 +114,7 @@ while true; do
             break
         else
             if [ -z "$aBuildNumber" ] || [ -z "$aVersion" ]; then
-                echo "[CRITICAL] Script parse error!!!"
+                echo "[$1] [CRITICAL] Script parse error!!!"
             fi
             echo "[$1] Unrecognized or unnecessary stuff. Burning it down and trying again"
             if [ -z "$saveFailedArtifacts" ]; then
@@ -134,6 +133,6 @@ while true; do
     sleep 30
 done
 
-echo "${1} just have been downloaded successfully. All tests passed. Terminating the script with code 0 :)"
+echo "[$1] just have been downloaded successfully. All tests passed. Terminating the script with code 0 :)"
 increaseCounter
 exit 0
