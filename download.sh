@@ -138,6 +138,7 @@ while true; do
         echo "[$1] Download failed for some reason. Retrying"
     fi
     let "retries -= 1"
+    echo "[$1] Waiting for the next retry..."
     sleep 30
 done
 
