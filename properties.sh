@@ -12,7 +12,7 @@ linkPath="$PENTAHO_BUILDS_PATH/DMZ/${buildVersion}"
 timeout=21600 #6 hours in seconds
 retries=4 #The last one will be from the box over ftp. It may be slow
 buildsToKeep=4
-saveFailedArtifacts="${linkPath}/${buildNumberHosted}/resurrected" #Comment this line to delete all wrong files
+#saveFailedArtifacts="${linkPath}/${buildNumberHosted}/resurrected" #Comment this line to delete all wrong files
 
 fileToDownload[1]=pentaho-business-analytics-x64.exe
 fileToDownload[2]=biserver-ee.zip
