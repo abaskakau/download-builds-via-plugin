@@ -23,6 +23,11 @@ function increaseCounter {
     let "itc+=1"
     echo $itc > it
 }
+function increaseFailedCounter {
+    itc=`head -n1 itf`
+    let "itfc+=1"
+    echo $itfc > itf
+}
 function executeCommand {
     "$@"
     dStatus=$?
@@ -60,6 +65,7 @@ if [[ $buildVersion == "5.4-NIGHTLY" ]]; then
                 increaseCounter
                 exit 0
             else
+                increaseFailedCounter
                 exit 1
             fi
         fi
@@ -93,6 +99,7 @@ while true; do
             break
         else
             echo "[$1] Sadly but it seems i already did everything i could. Terminating the script with code 1 :("
+            increaseFailedCounter
             exit 1
         fi
     fi
@@ -123,6 +130,7 @@ while true; do
                 mkdir -p $saveFailedArtifacts
                 mv ${1} ${saveFailedArtifacts}/${1}
                 rm -rf ${1}.aria2
+                increaseFailedCounter
                 exit 1
             fi
         fi
