@@ -93,10 +93,17 @@ while true; do
         renameArtifact ${1} ${buildVersion} ${buildNumberHosted}
         executeCommand aria2c ${ariaConfiguration} ftp://ftp.box.com/CI/${buildVersion}/${buildNumberHosted}/${aNewName}
         if [[ $dStatus == 0 ]]; then
-            echo "[$1] That was another time when pentaho gave us some crap we should sort. Anyway we got the file from the alternative storage"
-            mv ${1} ${artifactsStorage}/${aNewName}
-            linkArtifact ${aNewName} ${buildNumberHosted}
-            break
+            identifyArtifact ${1}
+            if [[ $aBuildNumber == $buildNumberHosted ]]; then
+                echo "[$1] That was another time when pentaho gave us some crap we should sort. Anyway we got the file from the alternative storage"
+                mv ${1} ${artifactsStorage}/${aNewName}
+                linkArtifact ${aNewName} ${buildNumberHosted}
+                break
+            else
+                echo "[$1] Wrong box version. Furious!"
+                increaseFailedCounter
+                exit 1
+            fi
         else
             echo "[$1] Sadly but it seems i already did everything i could. Terminating the script with code 1 :("
             increaseFailedCounter
