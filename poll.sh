@@ -1,6 +1,6 @@
 #!/bin/bash
 
-buildVersions[1]="6.1.0.0"
+buildVersions[1]="6.1-QAT"
 buildVersions[2]="6.0-NIGHTLY"
 buildVersions[3]="5.4-NIGHTLY"
 
