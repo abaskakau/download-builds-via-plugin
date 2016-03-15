@@ -1,8 +1,9 @@
 #!/bin/bash
 
-buildVersions[1]="6.1-QAT"
-buildVersions[2]="6.0-NIGHTLY"
-buildVersions[3]="5.4-NIGHTLY"
+buildVersions[1]="7.0-QAT"
+buildVersions[2]="6.1-QAT"
+buildVersions[3]="6.0-NIGHTLY"
+buildVersions[4]="5.4-NIGHTLY"
 
 for i in $(seq ${#buildVersions[@]})
 do
