@@ -119,7 +119,7 @@ while true; do
     if [[ $dStatus == 0 ]]; then
         echo "[$1] Download finished successfully. Status code 0. Let me try to identify what it was"
         #Identifying Artifact
-        if [ "$buildNumberHosted" == "7.0-QAT" ] || [ "$buildNumberHosted" == "6.1-QAT" ]; then
+        if [ "$buildVersion" == "7.0-QAT" ] || [ "$buildVersion" == "6.1-QAT" ]; then
              echo "[$1][WARNING] Disabling checks for QAT builds"
              renameArtifact ${1} ${buildVersion} ${buildNumberHosted}
              mv ${1} ${artifactsStorage}/${aNewName}
