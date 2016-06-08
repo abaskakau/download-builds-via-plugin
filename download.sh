@@ -6,7 +6,7 @@ buildVersion=${3}
 source properties.sh
 
 function identifyArtifact {
-    OUT=`egrep -a -o -m 1 "(6.1.0.0|6.0-NIGHTLY|7.0-QAT|6.1-QAT)[-]([0-9]){2}([0-9])?" $1` #A binary search
+    OUT=`egrep -a -o -m 1 "(7.0-QAT|6.1-QAT)[-]([0-9]){2}([0-9])?" $1` #A binary search
     IFS=- read aVersion aBuildNumber <<< "${OUT}"
     if [[ $aBuildNumber == *"-"* ]]; then
         IFS=- read aType aBuildNumber <<< "${aBuildNumber}"
@@ -80,11 +80,6 @@ if [[ $buildVersion == "5.4-NIGHTLY" ]]; then
         let "retries -= 1"
         sleep 30
     done
-fi
-
-if [[ $buildVersion == "6.0-NIGHTLY" ]]; then
-    echo "[$1] Waiting while build will be uploaded"
-    sleep 1800
 fi
 
 while true; do
