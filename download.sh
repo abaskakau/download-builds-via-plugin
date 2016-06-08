@@ -6,7 +6,7 @@ buildVersion=${3}
 source properties.sh
 
 function identifyArtifact {
-    OUT=`egrep -a -o -m 1 "(6.1.0.0|6.0-NIGHTLY)[-]([0-9]){2}([0-9])?" $1` #A binary search
+    OUT=`egrep -a -o -m 1 "(6.1.0.0|6.0-NIGHTLY|7.0-QAT|6.1-QAT)[-]([0-9]){2}([0-9])?" $1` #A binary search
     IFS=- read aVersion aBuildNumber <<< "${OUT}"
     if [[ $aBuildNumber == *"-"* ]]; then
         IFS=- read aType aBuildNumber <<< "${aBuildNumber}"
@@ -119,13 +119,6 @@ while true; do
     if [[ $dStatus == 0 ]]; then
         echo "[$1] Download finished successfully. Status code 0. Let me try to identify what it was"
         #Identifying Artifact
-        if [ "$buildVersion" == "7.0-QAT" ] || [ "$buildVersion" == "6.1-QAT" ]; then
-             echo "[$1][WARNING] Disabling checks for QAT builds"
-             renameArtifact ${1} ${buildVersion} ${buildNumberHosted}
-             mv ${1} ${artifactsStorage}/${aNewName}
-             linkArtifact ${aNewName} ${buildNumberHosted}
-             break
-        fi
         identifyArtifact ${1}
         if [[ $aBuildNumber == $buildNumberHosted ]]; then
             echo "[$1] Great. That was what we expected. Storing the file"
