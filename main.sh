@@ -34,10 +34,8 @@ done
 echo "[MAIN] Waiting until all downloads will be finished (${itc})"
 echo "${buildNumberHosted}" > $dataFile
 
-if [[ $buildVersion == "6.0-NIGHTLY" ]]; then
-    echo "[MAIN] Timeout increased for 6.0-NIGHTLY"
-    let "timeout += 3600"
-fi
+echo "[MAIN] Waiting for 10 minutes to upload"
+sleep 600
 
 while true; do
     if [[ $timeout -le 0 ]]; then
