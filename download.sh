@@ -24,7 +24,7 @@ function increaseCounter {
     echo $itc > it
 }
 function increaseFailedCounter {
-    itc=`head -n1 itf`
+    itfc=`head -n1 itf`
     let "itfc+=1"
     echo $itfc > itf
 }
