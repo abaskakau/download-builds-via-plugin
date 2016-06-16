@@ -20,9 +20,6 @@ if [ "MANUALTRIGGER" == "$BUILD_CAUSE" ]; then
   fi
 fi
 
-echo "[MAIN] Waiting for 10 minutes to upload"
-sleep 600
-
 #Download
 echo 0 > it
 echo 0 > itf
