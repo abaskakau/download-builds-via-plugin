@@ -20,6 +20,9 @@ if [ "MANUALTRIGGER" == "$BUILD_CAUSE" ]; then
   fi
 fi
 
+echo "[MAIN] Waiting for 10 minutes to upload"
+sleep 600
+
 #Download
 echo 0 > it
 echo 0 > itf
@@ -33,9 +36,6 @@ done
 
 echo "[MAIN] Waiting until all downloads will be finished (${itc})"
 echo "${buildNumberHosted}" > $dataFile
-
-echo "[MAIN] Waiting for 10 minutes to upload"
-sleep 600
 
 while true; do
     if [[ $timeout -le 0 ]]; then
