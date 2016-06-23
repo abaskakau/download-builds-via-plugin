@@ -20,6 +20,11 @@ if [ "MANUALTRIGGER" == "$BUILD_CAUSE" ]; then
   fi
 fi
 
+if [ "$buildVersion" == "6.1-QAT" ]; then
+    echo "Waiting 15 additional minutes for 6.1"
+    sleep 900
+fi
+
 #Download
 echo 0 > it
 echo 0 > itf
