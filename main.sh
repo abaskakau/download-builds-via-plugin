@@ -1,9 +1,7 @@
 #!/bin/bash
 
-if [ "XTRIGGERCAUSE" == "$BUILD_CAUSE" ]; then
-  tempFile="$HOME/.download_TEMP"
-  buildVersion=`head -n1 $tempFile`
-fi
+tempFile="$HOME/.download_TEMP"
+buildVersion=`head -n1 $tempFile`
 
 echo "[MAIN] Triggered $buildVersion"
 
@@ -13,12 +11,12 @@ buildNumberHosted=`curl $baseURL/build.info | head -n1`
 echo "$buildNumberHosted recieved"
 
 #Additional checks
-if [ "MANUALTRIGGER" == "$BUILD_CAUSE" ]; then
-  if [[ $buildNumberHosted == $(head -n1 $dataFile) ]]; then
-    echo "[MAIN] There are no new builds"
-    exit 0
-  fi
-fi
+#if [ "MANUALTRIGGER" == "$BUILD_CAUSE" ]; then
+#  if [[ $buildNumberHosted == $(head -n1 $dataFile) ]]; then
+#    echo "[MAIN] There are no new builds"
+#    exit 0
+#  fi
+#fi
 
 if [ "$buildVersion" == "6.1-QAT" ]; then
     echo "Waiting 15 additional minutes for 6.1"

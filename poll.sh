@@ -25,8 +25,7 @@ do
     tempFile="$HOME/.download_TEMP"
     echo ${buildVersions[i]} > $tempFile
     echo "Triggering build for ${buildVersions[i]}-${buildNumberAct}"
+    ./main.sh &
     exit 0
   fi
 done
-
-exit 1
