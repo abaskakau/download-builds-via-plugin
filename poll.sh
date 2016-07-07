@@ -1,5 +1,9 @@
 #!/bin/bash
 
+if pidof -s aria2c > /dev/null; then
+    exit 0
+fi
+
 buildVersions[1]="7.0-QAT"
 buildVersions[2]="6.1-QAT"
 buildVersions[3]="5.4-NIGHTLY"
