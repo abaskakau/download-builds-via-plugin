@@ -70,3 +70,5 @@ do
   rm -rf $linkPath/$i/*
   rm -rf $linkPath/$i
 done
+
+exit 0
