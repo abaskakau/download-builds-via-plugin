@@ -55,9 +55,11 @@ done
 
 if [[ $faJobs -gt 0 ]]; then
     echo "[MAIN] One or more jobs had been failed. Terminating the main script"
+    notify-send -i /usr/share/icons/Adwaita/32x32/status/dialog-error.png "Build Download Failure" "`tac /home/dbuilds/.downl.log | head -n50`"
     exit 1
 else
     echo "[MAIN] Congrats. All the files had been downloaded and identifyed. There are some messy steps left"
+    notify-send -i /usr/share/icons/Adwaita/32x32/status/network-transmit.png "Build Downloaded" "Build has been downloaded successfuly"
 fi
 
 #Discard old builds
