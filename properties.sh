@@ -19,3 +19,5 @@ fileToDownload[2]=biserver-ee.zip
 fileToDownload[3]=pdi-ee-client.zip
 fileToDownload[4]=pentaho-business-analytics-x64.app.tar.gz
 fileToDownload[5]=pentaho-business-analytics-x64.bin
+
+exit 0
