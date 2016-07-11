@@ -78,7 +78,7 @@ if [[ $buildVersion == "5.4-NIGHTLY" ]]; then
             exit 0
         fi
         let "retries -= 1"
-        sleep 900
+        sleep 1200
     done
 fi
 
@@ -141,7 +141,7 @@ while true; do
     fi
     let "retries -= 1"
     echo "[$1] Waiting for the next retry..."
-    sleep 900
+    sleep 1200
 done
 
 echo "[$1] just have been downloaded successfully. All tests passed. Terminating the script with code 0 :)"
