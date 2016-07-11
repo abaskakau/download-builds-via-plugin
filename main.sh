@@ -64,11 +64,12 @@ fi
 deletionNumber=${buildNumberHosted}
 let "deletionNumber -= buildsToKeep"
 echo "[MAIN] The script is going to delete ${deletionNumber} and older"
-for i in $(seq ${deletionNumber})
-do
-  rm -rf `readlink -f $linkPath/${i}/*`
-  rm -rf $linkPath/$i/*
-  rm -rf $linkPath/$i
-done
+#for i in $(seq ${deletionNumber})
+#do
+#  rm -rf `readlink -f $linkPath/${i}/*`
+#  rm -rf $linkPath/$i/*
+#  rm -rf $linkPath/$i
+#done
+echo "[MAIN][WARNING] Deleting temporary disabled"
 
 exit 0
